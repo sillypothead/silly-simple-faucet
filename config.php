@@ -1,27 +1,39 @@
 <?php
 
-$currency = 'Namecoin Testnet';  // name of currency
-$addressprefix = '[m-n]';        // first char of address (regex)
+
+?>$currency = 'CannaCoin';  // name of currency
+$addressprefix = '[C]';        // first char of address (regex)
 $addresslength = '33';           // length in chars -1 (regex)
-$addressversion = '6F';          // hex address prefix, upper case
+$addressversion = '1C';          // hex address prefix, upper case
 $maxaddrlength = '34';           // maximum address length
-$donations = 'mze2dAzHLZjTLPiF87WcyZiJBVtoUNeKre';
+$donations = 'CVxjvtWAXD4gcU1CjJfp4PyCw2ULeDVL7r';
 
-$period = 3600;                  // payout period in seconds
-$paydiv = 200;                   // fraction of balance paid
-$minpay = 0.01;                  // minimum payment
-$minbal = 0.01;                  // minimum balance (must cover fee)
+$period = 7200;                  // payout period in seconds
+$paydiv = 420;                   // fraction of balance paid
+$minpay = 0.42;                  // minimum payment
+$minbal = 4.2;                  // minimum balance (must cover fee)
 
-$rpcuser = 'namecoinrpc';        // json-rpc login details
-$rpcpass = '';
+$rpcuser = 'user';        // json-rpc login details
+$rpcpass = 'pass';
 $rpchost = 'localhost';
-$rpcport = '18336';
+$rpcport = '1234';
 
-$walletpass = '';                // wallet passphrase
+$walletpass = '';                // wallet passphrase, if any
 
-$mysqluser = 'faucet';           // mysql login details
-$mysqlpass = '';
+$mysqluser = 'user';           // mysql login details
+$mysqlpass = 'pass';
 $mysqlhost = 'localhost';
-$mysqldb = 'faucet';
+$mysqldb = 'faucetdb';
 
+// Get a key from https://www.google.com/recaptcha/admin/create
+$publickey = "6LfNVvMSAAAAAJfp8mFOxz4tDC-Zk5mTEB3ubfW4";
+$privatekey = "6LfNVvMSAAAAACvW6cmarzBmfOXPa92Ohv3c6qZV";
+
+$links = '
+  Don\'t have a ' . $currency. ' wallet? <a href="http://hempcoin.org/">Get one</a>.<br>
+  Want to trade your ' . $currency. '?
+  <ul>
+  <li><b>Vote to be traded on <a href="https://www.mintpal.com/voting#THC">Mintpal.com</a></b>
+  <li><a href="https://www.swisscex.com/market/CCN_BTC">SwissCEX</a>
+  </ul>';
 ?>
