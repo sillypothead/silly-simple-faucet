@@ -1,7 +1,12 @@
 silly-simple-faucet
 ==============
 
-Silly's Simple faucet for anycoin with JSON-RPC compattible wallet.
+Silly's Simple faucet for any coin with JSON-RPC compattible wallet.
+
+INSTALLATION:
+Make sure you have your coin wallet deamon installed and running and your mysql dabatese created and running.
+Just edit the config.php file with your coin information.
+
 
 Based on:
 
