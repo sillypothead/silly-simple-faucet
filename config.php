@@ -30,10 +30,9 @@ $publickey = "6LfNVvMSAAAAAJfp8mFOxz4tDC-Zk5mTEB3ubfW4";
 $privatekey = "6LfNVvMSAAAAACvW6cmarzBmfOXPa92Ohv3c6qZV";
 
 $links = '
-  Don\'t have a ' . $currency. ' wallet? <a href="http://hempcoin.org/">Get one</a>.<br>
-  Want to trade your ' . $currency. '?
+  Don\'t have a ' . $currency. ' wallet? <a href="http://cannacoin.cc
   <ul>
-  <li><b>Vote to be traded on <a href="https://www.mintpal.com/voting#THC">Mintpal.com</a></b>
+  <li><b>Vote to be traded on <a href="https://www.mintpal.com/voting#CCN">Mintpal.com</a></b>
   <li><a href="https://www.swisscex.com/market/CCN_BTC">SwissCEX</a>
   </ul>';
 ?>
