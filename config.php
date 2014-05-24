@@ -9,7 +9,7 @@ $maxaddrlength = '34';           // maximum address length
 $donations = 'CVxjvtWAXD4gcU1CjJfp4PyCw2ULeDVL7r';
 
 $period = 7200;                  // payout period in seconds
-$paydiv = 420;                   // fraction of balance paid
+$paydiv = 420;                   // fraction of balance paid 
 $minpay = 0.42;                  // minimum payment
 $minbal = 4.2;                  // minimum balance (must cover fee)
 
