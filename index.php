@@ -11,7 +11,19 @@ $page = '<!DOCTYPE html>
  <meta charset="utf-8"/>
  <title>' . $currency . ' Faucet</title>
 </head>
-<body>';
+<body>
+<center>';
+
+
+/*
+$toplinks = "Silly's Simple Faucets | 
+	| <a href=\"http://sillypothead.com/ccnfaucet\">CannaCoin(CCN)
+        | <a href=\"http://sillypothead.com/thcfaucet\">HempCoin(THC)</a>
+	<br><br>
+	"; 
+		 
+$page .= $toplinks;
+*/
 
 $back = '<a href="/">Home</a> | <a href="javascript: history.go(-1)">Go Back</a>';
 
@@ -44,15 +56,15 @@ if (isset($_POST['a'])) {
                                         $_POST["recaptcha_response_field"]);
    switch ($test) {
       case 0:
-         if ($resp->is_valid) {
+	 if ($resp->is_valid) {
            $pay = payout($address);
            if (is_array($pay))
               die ($page. '<p>Paid ' . $pay['amount'] . ' to ' . $address . ' in transaction id ' . $pay['tid'] . '</p>' . $footer);
            die ($page . '<p>Faucet is dry, please donate!<p>' . $footer);
-          } else {
+    	  } else {
                $error = $resp->error;
                die("<p>Captcha Challenge Failed<br><a href=\"javascript:history.back()\">Back</a>");
-          }
+  	  }
           break;
       case $test < 0: $page .= '<p>Invalid ' . $currency . ' address, please try again. ' . $test . '</p>'; break;
       case $test > 99: die($page . '<p>Please wait ' . round($test/60) . ' minutes.</p>' . $footer); break;
@@ -63,15 +75,16 @@ if (isset($_POST['a'])) {
 
 $page .= '
  <form id="faucet" method="post">
-  <label for="a">Enter your ' . $currency .' address</label>
+  <label for="a">Enter your <b>' . $currency .'</b> address:</label>
+  <br>
   <input type="text" name="a" id="a" maxlength="' . $maxaddrlength . '" size="' . $maxaddrlength . '" pattern="' . $pattern . '">
   ' . recaptcha_get_html($publickey, $error) . '
   <input type="submit" value="Get coins">
  </form>';
 
 echo $page . $footer;
-echo "<br><br><br>";
-echo '<a href="https://ititch.com/billing/aff.php?aff=011"><img src="https://ititch.com/wp-content/uploads/2012/09/cropped-blackbanner.jpg" width="120" height="60" border="0"></a>';
+echo "<br>";
+echo "<br><font size=\"2\">Source: <a href=\"https://github.com/sillypothead/silly-simple-faucet\">Git-Hub</a></font>";
 echo "<br><font size=\"2\">Based on namecoin <a href=\"https://github.com/John-Kenney/testnet-faucet\">testnet-faucet</a> by John Kenney.</font>";
 echo "</body></html>";
 
