@@ -74,7 +74,7 @@ function test_address($address) {
    $addrhex = base2base($address,$base58,$hex);
    if (strlen($addrhex) !== 50)
       return -3;
-   if (substr($addrhex,0,2) !== $addressversion)
+   if (substr($addrhex,0,2) !== $addressversion) 
       return -4;
    $check = substr($addrhex,0,42);
    $check = pack('H*' , $check);
@@ -116,21 +116,26 @@ function fromsatoshi($amount) {
    return bcdiv($amount,'100000000',8);
 }
 
-function payout($address) {
-   global $currency,$ip,$link,$minbal,$minpay,$paydiv,$walletpass;
+function payout($address, $pay) {
+   global $currency,$ip,$link,$minbal,$minpay,$walletpass;
    $params = array(0 => NULL, 1 => 6);
    $res = send_json_request('getbalance');
    $bal = tosatoshi($res['result']);
    if (bccomp($bal,tosatoshi($minbal),0) == -1)
       return false;
-   $pay = bcdiv($bal,$paydiv,0);
-   if (bccomp($pay,tosatoshi($minpay),0) == -1)
-      $pay = tosatoshi($minpay);
+
+   //Updated pay with current market value with flat usd base value. 
+   //$pay = bcdiv($bal,$paydiv,0);
+
    if (bccomp($bal,tosatoshi($minbal)-$pay,0) == -1)
       return false;
    $params = array(0 => $walletpass, 1 => 1);
    $res = send_json_request('walletpassphrase',$params);
-   $params = array(0 => $address, 1 => (float)fromsatoshi($pay));
+   $params = array(0 => $address, 1 => (float)$pay);
+   
+   // dev
+   return array('amount' => $pay, 'tid' => '0');
+
    $paid = send_json_request('sendtoaddress',$params);
    if ($paid === false)
       return false;
@@ -138,11 +143,45 @@ function payout($address) {
       $json = json_encode($paid);
       $time = time();
       $tid = $paid['result'];
-      mysqli_stmt_bind_param($stmt, 'sissi',$address,$pay,$ip,$tid,$time);
+      mysqli_stmt_bind_param($stmt, 'sissi',$address,tosatoshi($pay),$ip,$tid,$time);
       mysqli_stmt_execute($stmt);
       mysqli_stmt_close($stmt);
    }
-   return array('amount' => fromsatoshi($pay), 'tid' => $tid);
+   return array('amount' => $pay, 'tid' => $tid);
+}
+
+function print_stats() {
+  global $mysqlhost, $mysqluser, $mysqlpass, $mysqldb, $coin;
+  $mysqli = new mysqli($mysqlhost, $mysqluser, $mysqlpass, $mysqldb);
+  /* check connection */
+  if (mysqli_connect_errno()) {
+    $page .= "Connect failed:" . mysqli.connect_error() . "\n";
+    return $page;
+  }
+
+  //Total dispense
+  $page .= "Total Dispensed: ";
+  $query = "SELECT SUM(amount) AS total FROM transactions";
+  if ($result = $mysqli->query($query)) {
+    $total = mysqli_fetch_array($result);
+    /* determine number of rows result set */
+    $page .= bcdiv($total[0], '100000000', 8) . ' ' . $coin;
+  }
+
+  $page .= "<br>";
+  $page .= "Unique Addresses: ";
+  //Unique Addresses
+  $query = "SELECT COUNT(DISTINCT address) FROM transactions";
+  if ($result = $mysqli->query($query)) {
+    $unique = mysqli_fetch_array($result);
+    $page .= $unique[0];
+  }
+
+/* close connection */
+$result->close();
+$mysqli->close();
+
+return $page;
 }
 
 ?>
